@@ -67,7 +67,7 @@ export default function ConditionPage() {
 
   return (
     <div className="container">
-      <Link to="/" viewTransition className="link-action back-link">← Les 13 handicaps</Link>
+      <Link to="/" viewTransition className="link-action back-link">← Tous les handicaps</Link>
 
       <header className="fiche-hero" style={{ viewTransitionName: `fiche-${condition.slug}` }}>
         <SceneVisual condition={condition} />
@@ -158,15 +158,21 @@ export default function ConditionPage() {
             <span className="overtitle">3 gestes concrets</span>
             <h2 id="agir-title" className="h2">Ce que je peux faire</h2>
           </div>
-          <ul className="gestures">
-            {condition.gestures.map((g) => (
-              <li key={g.id} className="panel gesture">
-                <span className="gesture-kind" data-kind={g.kind}>{kindLabels[g.kind]}</span>
-                <span className="gesture-title">{g.title}</span>
-                <span className="muted">{g.body}</span>
-              </li>
-            ))}
-          </ul>
+          {condition.gestures.length > 0 ? (
+            <ul className="gestures">
+              {condition.gestures.map((g) => (
+                <li key={g.id} className="panel gesture">
+                  <span className="gesture-kind" data-kind={g.kind}>{kindLabels[g.kind]}</span>
+                  <span className="gesture-title">{g.title}</span>
+                  <span className="muted">{g.body}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="panel muted" style={{ borderStyle: 'dashed' }}>
+              Ces gestes sont en cours d’écriture avec les témoins.
+            </p>
+          )}
           <div className="btn-row" style={{ alignItems: 'center' }}>
             <button type="button" className="btn btn-secondary btn-sm" onClick={share}>Partager cette page</button>
             <span role="status" className="muted">{shareNote}</span>

@@ -1,5 +1,6 @@
 import { useRef, useState, type FormEvent } from 'react'
 import { useSearchParams } from 'react-router'
+import EspaceTemoin from '../components/EspaceTemoin'
 import { supabase } from '../lib/supabase'
 import { useTitle } from '../lib/useTitle'
 
@@ -75,6 +76,8 @@ export default function Contact() {
           écrivez-nous.
         </p>
       </div>
+
+      <EspaceTemoin />
 
       <form ref={formRef} className="form" onSubmit={submit} noValidate>
         <fieldset className="field radio-row">

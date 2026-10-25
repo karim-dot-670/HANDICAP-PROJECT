@@ -3,7 +3,7 @@ import { Link, NavLink, Outlet, ScrollRestoration, useLocation } from 'react-rou
 import { track } from '../lib/track'
 
 const nav = [
-  { to: '/', label: 'Les 13 handicaps', end: true },
+  { to: '/', label: 'Les handicaps', end: true },
   { to: '/idees-recues', label: 'Idées reçues' },
   { to: '/contact', label: 'Contact' },
   { to: '/a-propos', label: 'À propos' },

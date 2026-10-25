@@ -18,10 +18,11 @@ les routes vers `index.html`).
 
 ## Ce qui est en place (MVP du PRD)
 
-- Accueil : phrase forte et grille des 13 cartes, du plus courant au moins courant.
+- Accueil : phrase forte et grille des 36 cartes, les plus courants d’abord, puis les maladies rares.
+  Les 23 fiches ajoutées le 25 octobre (rangs 14 à 36) sont en « Vision 3D · bientôt » et sans gestes ni témoignage pour l’instant.
 - Fiche : transition carte → fiche (View Transitions API, 560 ms), sélecteur de stade (radios natives,
   le stade est dans l'URL `?stade=3` pour le partage), texte en fondu enchaîné.
-- **Vision 3D** pour les 13 handicaps : avertissement, ouverture en zoom depuis le bouton, déplacement
+- **Vision 3D** pour les 13 premiers handicaps : avertissement, ouverture en zoom depuis le bouton, déplacement
   souris / doigt / clavier, bouton Quitter + Échap, sous-titres, description textuelle, message de fin
   « Une minute ici ne remplace pas une vie ». Three.js n'est chargé qu'au clic.
   - Surdité (café, son filtré), moteur (rue en fauteuil), visuelle (supermarché : flou, tunnel, DMLA, cécité),
@@ -37,6 +38,8 @@ les routes vers `index.html`).
   en attendant les enregistrements), contenu selon le stade.
 - Témoignage (portrait ou illustration, vidéo/audio sous-titré si fourni, transcription, journée type),
   « Ce que je peux faire » (3 gestes), partage, quiz idées reçues, formulaire de contact, page éthique et sources.
+- Espace témoin sans mot de passe (passkey) sur la page Contact : **prototype côté navigateur**, la vérification
+  serveur et l’espace de relecture restent à brancher (Supabase Auth).
 - Accessibilité : focus lime visible partout, lien d'évitement, navigation clavier complète, « réduire les
   animations » → fondus de 150 ms, aucun flash, aucun son sans action.
 - Vie privée : polices auto-hébergées, aucun cookie ; mesure anonyme sans identifiant persistant.
@@ -47,7 +50,7 @@ Dans le Studio Supabase, **Table Editor** :
 
 | Table | Contenu |
 | --- | --- |
-| `conditions` | Les 13 fiches (texte, chiffres, scène, `vision_kind` = scène 3D disponible, `published`) |
+| `conditions` | Les 36 fiches (texte, chiffres, scène, `vision_kind` = scène 3D disponible, `published`) |
 | `stages` | Stades : libellé, description, pensées « Dans sa tête » (`thoughts`), intensité de simulation 0 → 1 |
 | `gestures` | Les 3 gestes par fiche (`aider`, `eviter`, `amenager`) |
 | `testimonies` | Témoignages ; `published` pour publier ou retirer, `is_example` pour les textes d'exemple |

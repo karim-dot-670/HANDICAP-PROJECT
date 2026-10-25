@@ -13,6 +13,7 @@ const ways = [
 export default function Home() {
   useTitle('')
   const content = useContent()
+  const count = content.status === 'ready' ? content.conditions.length : null
 
   return (
     <div className="container">
@@ -24,7 +25,7 @@ export default function Home() {
           les obstacles que crée leur environnement. Lisez, voyez, entendez, puis découvrez ce que vous pouvez changer.
         </p>
         <div className="hero-actions">
-          <a className="btn btn-primary" href="#catalogue">Découvrir les 13 handicaps <span aria-hidden="true">↓</span></a>
+          <a className="btn btn-primary" href="#catalogue">Découvrir les {count ?? ''} handicaps <span aria-hidden="true">↓</span></a>
           <Link className="btn btn-secondary" to="/idees-recues" viewTransition>Tester mes idées reçues</Link>
         </div>
       </section>
@@ -41,8 +42,8 @@ export default function Home() {
 
       <section id="catalogue" className="section" aria-labelledby="catalogue-title" style={{ scrollMarginTop: 24 }}>
         <div className="section-head">
-          <span className="overtitle">13 handicaps et maladies</span>
-          <h2 id="catalogue-title" className="h2">Du plus courant au moins courant en France</h2>
+          <span className="overtitle">Les plus courants d’abord, puis les maladies rares</span>
+          <h2 id="catalogue-title" className="h2">{count ?? ''} façons de vivre la même ville</h2>
           <p className="muted" style={{ maxWidth: '70ch' }}>
             Les chiffres sont des ordres de grandeur. Ceux marqués * sont des estimations courantes,
             non confirmées par une source officielle.

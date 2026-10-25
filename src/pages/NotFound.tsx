@@ -8,7 +8,7 @@ export default function NotFound() {
       <span className="overtitle">Erreur 404</span>
       <h1 className="h1">Cette page n’existe pas.</h1>
       <p className="lead">Elle a peut-être été déplacée, ou retirée à la demande d’un témoin.</p>
-      <Link to="/" className="link-action">← Retour aux 13 handicaps</Link>
+      <Link to="/" className="link-action">← Retour aux handicaps</Link>
     </div>
   )
 }
