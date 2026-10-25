@@ -33,7 +33,8 @@ export default function Home() {
           </div>
         </div>
         {/* Muette par défaut (aucun son sans action) ; lecture auto sauf si « réduire les animations ». */}
-        <figure className="hero-video">
+        <figure className="hero-video" aria-labelledby="video-title">
+          <h2 id="video-title" className="hero-video-title">La vision et les pensées d’un autre</h2>
           <video
             src="/video/autrement-vu-presentation.mp4"
             controls
@@ -42,9 +43,9 @@ export default function Home() {
             playsInline
             autoPlay={!reducedMotion}
             preload="metadata"
-            aria-label="Vidéo de présentation d’Autrement vu"
+            aria-labelledby="video-title"
           />
-          <figcaption className="mono muted">Présentation · activez le son avec le bouton du lecteur</figcaption>
+          <figcaption className="mono muted">Activez le son avec le bouton du lecteur</figcaption>
         </figure>
       </section>
 
