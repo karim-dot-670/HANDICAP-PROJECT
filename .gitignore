@@ -1,0 +1,9 @@
+node_modules
+dist
+.env.local
+
+# Archives et fichiers locaux
+*.zip
+.env
+.env.*
+!.env.example

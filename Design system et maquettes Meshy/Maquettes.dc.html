@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#15120f;color:#f4efe8;font-family:'Barlow',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#c8f560}a:hover{color:#e2ffa0}
+button{font-family:inherit}
+*:focus-visible{outline:3px solid #c8f560;outline-offset:3px}
+::view-transition-group(*){animation-duration:560ms;animation-timing-function:cubic-bezier(.22,1,.36,1)}
+@media (prefers-reduced-motion:reduce){*{transition-duration:150ms!important}::view-transition-group(*){animation-duration:150ms}}
+</style>
+</helmet>
+<div style="min-height:100vh;background:#15120f;">
+
+<header style="position:sticky;top:0;z-index:20;background:rgba(21,18,15,0.86);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,240,220,0.1);">
+<div style="max-width:1240px;margin:0 auto;padding:0 24px;min-height:68px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+<button onClick="{{ goHome }}" style="display:flex;align-items:center;gap:10px;background:none;border:0;color:#f4efe8;cursor:pointer;padding:8px 0;min-height:44px;">
+<span style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#c8f560,#8ff0c0);"></span>
+<span style="font-weight:700;font-size:20px;letter-spacing:-0.01em;">Autrement vu</span>
+</button>
+<nav aria-label="Principale" style="display:flex;gap:4px;margin-left:auto;flex-wrap:wrap;">
+<button onClick="{{ goCatalogue }}" style="min-height:44px;padding:0 14px;background:none;border:0;color:#cfc6ba;font-size:16px;font-weight:500;cursor:pointer;border-radius:999px;" style-hover="color:#f4efe8;background:rgba(255,240,220,0.06);">Les handicaps</button>
+<button onClick="{{ goQuiz }}" style="min-height:44px;padding:0 14px;background:none;border:0;color:#cfc6ba;font-size:16px;font-weight:500;cursor:pointer;border-radius:999px;" style-hover="color:#f4efe8;background:rgba(255,240,220,0.06);">Idées reçues</button>
+<button onClick="{{ goContact }}" style="min-height:44px;padding:0 18px;background:rgba(255,240,220,0.04);border:1.5px solid rgba(255,240,220,0.3);color:#f4efe8;font-size:16px;font-weight:600;cursor:pointer;border-radius:999px;" style-hover="border-color:#f4efe8;">Témoigner</button>
+</nav>
+</div>
+</header>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<main data-screen-label="01 Accueil">
+
+<section style="position:relative;overflow:hidden;background:radial-gradient(900px 520px at 75% 10%,#3d2b1a 0%,rgba(21,18,15,0) 70%);">
+<div style="position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(rgba(255,240,220,0.06) 1px,transparent 1px) 0 0/56px 56px,linear-gradient(90deg,rgba(255,240,220,0.06) 1px,transparent 1px) 0 0/56px 56px;transform:perspective(600px) rotateX(58deg);transform-origin:bottom;-webkit-mask-image:linear-gradient(to top,#000 10%,transparent 90%);mask-image:linear-gradient(to top,#000 10%,transparent 90%);pointer-events:none;"></div>
+<div style="position:relative;max-width:1240px;margin:0 auto;padding:clamp(48px,8vw,104px) 24px clamp(56px,8vw,112px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:48px;align-items:center;">
+<div style="display:flex;flex-direction:column;gap:24px;">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#f2b46b;">{{ nCount }} handicaps · racontés par celles et ceux qui les vivent</span>
+<h1 style="margin:0;font-size:clamp(52px,8vw,104px);line-height:0.95;font-weight:600;letter-spacing:-0.03em;text-wrap:balance;">Il y a une marche.</h1>
+<p style="margin:0;font-size:clamp(18px,2vw,21px);line-height:1.55;color:#cfc6ba;max-width:44ch;text-wrap:pretty;">Vous ne la voyez pas. Eux, si — chaque jour. Lisez leur histoire, voyez le monde à travers leurs yeux, entendez ce qui se passe dans leur tête. Puis changez un geste.</p>
+<div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;">
+<button onClick="{{ openFirst }}" style="display:flex;align-items:center;gap:12px;min-height:60px;padding:0 32px;border:0;border-radius:999px;background:linear-gradient(100deg,#c8f560,#8ff0c0);color:#15120f;font-size:19px;font-weight:700;cursor:pointer;box-shadow:0 0 44px rgba(200,245,96,0.25);" style-hover="box-shadow:0 0 60px rgba(200,245,96,0.45);transform:translateY(-1px);">Entrer dans un café bondé <span aria-hidden="true">→</span></button>
+<button onClick="{{ goCatalogue }}" style="min-height:44px;padding:0 6px;background:none;border:0;color:#f4efe8;font-size:17px;font-weight:600;text-decoration:underline;text-underline-offset:5px;text-decoration-color:#c8f560;cursor:pointer;">Voir les {{ nCount }} handicaps</button>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:0;">
+<div style="aspect-ratio:5/4;border-radius:28px 28px 0 0;background:repeating-linear-gradient(135deg,rgba(255,240,220,0.05) 0 10px,rgba(255,240,220,0) 10px 20px),radial-gradient(circle at 50% 70%,#5a3f26,#1f1a15 72%);border:1px solid rgba(255,240,220,0.12);border-bottom:0;display:flex;align-items:flex-end;padding:20px;">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#b9afa3;">rendu 3D · rue vue à hauteur de fauteuil</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:22px 24px 26px;border-radius:0 0 28px 28px;background:linear-gradient(180deg,#2a231c,#1f1a15);border:1px solid rgba(255,240,220,0.16);box-shadow:0 30px 80px rgba(0,0,0,0.45);">
+<div style="display:flex;align-items:center;gap:10px;"><span style="width:10px;height:10px;border-radius:50%;background:#f2b46b;"></span><span style="font-size:16px;font-weight:600;">Dans sa tête</span><span style="margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#b9afa3;">Karim, 33 ans</span></div>
+<p style="margin:0;font-size:20px;line-height:1.45;">« Il y a une marche. Je fais demi-tour, ou je demande à un inconnu ? »</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="catalogue" ref="{{ catRef }}" style="max-width:1240px;margin:0 auto;padding:72px 24px 24px;display:flex;flex-direction:column;gap:32px;scroll-margin-top:80px;">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;">
+<div style="display:flex;flex-direction:column;gap:8px;">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#f2b46b;">Les plus courants d’abord, puis les maladies rares</span>
+<h2 style="margin:0;font-size:clamp(32px,4vw,48px);font-weight:600;letter-spacing:-0.02em;">{{ nCount }} façons de vivre la même ville</h2>
+</div>
+<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#b9afa3;">* ordre de grandeur à vérifier</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:20px;">
+<sc-for list="{{ cards }}" as="item" hint-placeholder-count="6">
+<button onClick="{{ item.open }}" style="display:flex;flex-direction:column;text-align:left;padding:0;border-radius:22px;background:#1f1a15;border:1px solid rgba(255,240,220,0.12);overflow:hidden;cursor:pointer;color:#f4efe8;" style-hover="border-color:rgba(200,245,96,0.6);transform:translateY(-2px);">
+<div style="width:100%;box-sizing:border-box;aspect-ratio:16/10;background:repeating-linear-gradient(135deg,rgba(255,240,220,0.05) 0 10px,rgba(255,240,220,0) 10px 20px),radial-gradient(circle at 50% 85%,#4a3522,#1f1a15 70%);display:flex;align-items:flex-end;justify-content:space-between;gap:8px;padding:14px;view-transition-name:vt-{{ item.id }};">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#b9afa3;">scène : {{ item.place }}</span>
+<sc-if value="{{ item.has3d }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;color:#15120f;background:#c8f560;border-radius:999px;padding:3px 10px;white-space:nowrap;">Vision 3D</span></sc-if>
+<sc-if value="{{ item.no3d }}" hint-placeholder-val="{{ true }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#f4efe8;border:1px solid rgba(255,240,220,0.3);border-radius:999px;padding:3px 10px;white-space:nowrap;">3D bientôt</span></sc-if>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:18px 20px 22px;">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#f2b46b;">{{ item.num }} · {{ item.count }}</span>
+<span style="font-size:23px;font-weight:600;line-height:1.15;letter-spacing:-0.01em;">{{ item.name }}</span>
+<span style="font-size:15px;color:#b9afa3;">{{ item.stagesLabel }}</span>
+</div>
+</button>
+</sc-for>
+</div>
+</section>
+
+<section id="quiz" ref="{{ quizRef }}" style="max-width:1240px;margin:0 auto;padding:72px 24px;scroll-margin-top:80px;">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:40px;padding:clamp(28px,5vw,56px);border-radius:28px;background:#1f1a15;border:1px solid rgba(255,240,220,0.12);">
+<div style="display:flex;flex-direction:column;gap:12px;">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#f2b46b;">Idées reçues · {{ quizPos }}</span>
+<h2 style="margin:0;font-size:clamp(28px,3.4vw,40px);line-height:1.12;font-weight:600;letter-spacing:-0.015em;text-wrap:balance;">{{ quizQ }}</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:18px;justify-content:center;">
+<div role="group" aria-label="Votre réponse" style="display:flex;flex-wrap:wrap;gap:12px;">
+<button onClick="{{ answerTrue }}" aria-pressed="{{ pickedTrue }}" style="min-height:56px;min-width:120px;padding:0 26px;border-radius:999px;background:{{ trueBg }};color:{{ trueFg }};border:1.5px solid rgba(255,240,220,0.35);font-size:18px;font-weight:600;cursor:pointer;">Vrai</button>
+<button onClick="{{ answerFalse }}" aria-pressed="{{ pickedFalse }}" style="min-height:56px;min-width:120px;padding:0 26px;border-radius:999px;background:{{ falseBg }};color:{{ falseFg }};border:1.5px solid rgba(255,240,220,0.35);font-size:18px;font-weight:600;cursor:pointer;">Faux</button>
+</div>
+<div aria-live="polite" style="display:flex;flex-direction:column;gap:12px;min-height:24px;">
+<sc-if value="{{ answered }}" hint-placeholder-val="{{ false }}">
+<p style="margin:0;font-size:18px;line-height:1.55;color:#f4efe8;"><strong style="color:{{ verdictColor }};">{{ verdict }}</strong> {{ quizA }}</p>
+<button onClick="{{ nextQuiz }}" style="align-self:flex-start;min-height:44px;padding:0 4px;background:none;border:0;color:#f4efe8;font-size:17px;font-weight:600;text-decoration:underline;text-underline-offset:5px;text-decoration-color:#c8f560;cursor:pointer;">{{ nextLabel }}</button>
+</sc-if>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+</sc-if>
+
+<sc-if value="{{ isFiche }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="02 Fiche handicap" style="max-width:1240px;margin:0 auto;padding:24px 24px 96px;display:flex;flex-direction:column;gap:56px;">
+
+<div style="display:flex;flex-direction:column;gap:20px;">
+<button onClick="{{ goHome }}" style="align-self:flex-start;display:flex;align-items:center;gap:8px;min-height:44px;padding:0 16px 0 10px;background:none;border:1px solid rgba(255,240,220,0.18);border-radius:999px;color:#cfc6ba;font-size:15px;font-weight:500;cursor:pointer;" style-hover="color:#f4efe8;border-color:rgba(255,240,220,0.4);"><span aria-hidden="true">←</span> Tous les handicaps</button>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:40px;align-items:start;">
+<div style="aspect-ratio:4/3;border-radius:28px;background:repeating-linear-gradient(135deg,rgba(255,240,220,0.05) 0 10px,rgba(255,240,220,0) 10px 20px),radial-gradient(circle at 50% 80%,#5a3f26,#1f1a15 72%);border:1px solid rgba(255,240,220,0.12);display:flex;align-items:flex-end;padding:20px;view-transition-name:vt-{{ cur.id }};">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#b9afa3;">visuel · {{ cur.place }}</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:22px;">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#f2b46b;">{{ cur.num }} · {{ cur.count }} en France</span>
+<h1 style="margin:0;font-size:clamp(40px,5vw,60px);line-height:1.02;font-weight:600;letter-spacing:-0.025em;text-wrap:balance;">{{ cur.name }}</h1>
+<p style="margin:0;font-size:19px;line-height:1.6;color:#cfc6ba;max-width:52ch;text-wrap:pretty;">{{ cur.about }}</p>
+
+<div style="display:flex;flex-direction:column;gap:14px;padding:22px;border-radius:22px;background:#1f1a15;border:1px solid rgba(255,240,220,0.12);">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;"><span id="stade-label" style="font-size:18px;font-weight:600;">{{ cur.stageTitle }}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#f2b46b;">{{ cur.scale }}</span></div>
+<div role="radiogroup" aria-labelledby="stade-label" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:4px;padding:4px;border-radius:24px;background:#15120f;border:1px solid rgba(255,240,220,0.12);">
+<sc-for list="{{ stages }}" as="s" hint-placeholder-count="4">
+<button role="radio" aria-checked="{{ s.checked }}" onClick="{{ s.pick }}" style="min-height:44px;padding:0 10px;border:0;border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:16px;font-weight:{{ s.fw }};cursor:pointer;transition:background 300ms cubic-bezier(.22,1,.36,1),color 300ms;">{{ s.label }}</button>
+</sc-for>
+</div>
+<p aria-live="polite" style="margin:0;font-size:16px;line-height:1.55;color:#cfc6ba;opacity:{{ stageOp }};transition:opacity 220ms ease;">{{ stageText }}</p>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:14px;">
+<sc-if value="{{ cur.has3d }}" hint-placeholder-val="{{ true }}">
+<button onClick="{{ openVision }}" style="display:flex;align-items:center;gap:12px;min-height:56px;padding:0 30px;border:0;border-radius:999px;background:linear-gradient(100deg,#c8f560,#8ff0c0);color:#15120f;font-size:19px;font-weight:700;cursor:pointer;box-shadow:0 0 40px rgba(200,245,96,0.25);" style-hover="box-shadow:0 0 56px rgba(200,245,96,0.45);transform:translateY(-1px);">Vision 3D <span aria-hidden="true">→</span></button>
+</sc-if>
+<sc-if value="{{ cur.no3d }}" hint-placeholder-val="{{ false }}">
+<span style="display:flex;align-items:center;min-height:56px;padding:0 24px;border-radius:999px;border:1.5px dashed rgba(255,240,220,0.3);color:#b9afa3;font-size:17px;font-weight:600;">Vision 3D · bientôt</span>
+</sc-if>
+<button onClick="{{ openPanel }}" style="display:flex;align-items:center;gap:12px;min-height:56px;padding:0 28px;border-radius:999px;background:rgba(255,240,220,0.04);border:1.5px solid rgba(255,240,220,0.35);color:#f4efe8;font-size:19px;font-weight:600;cursor:pointer;" style-hover="background:rgba(255,240,220,0.1);border-color:#f4efe8;"><span style="width:10px;height:10px;border-radius:50%;background:#f2b46b;"></span> Dans sa tête</button>
+</div>
+</div>
+</div>
+</div>
+
+<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:32px;padding-top:48px;border-top:1px solid rgba(255,240,220,0.12);">
+<div style="display:flex;flex-direction:column;gap:14px;">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#f2b46b;">Témoignage</span>
+<h2 style="margin:0;font-size:36px;font-weight:600;letter-spacing:-0.015em;">{{ cur.witness }}</h2>
+<div style="aspect-ratio:1/1;max-width:320px;border-radius:22px;background:repeating-linear-gradient(135deg,rgba(255,240,220,0.05) 0 10px,rgba(255,240,220,0) 10px 20px),#1f1a15;border:1px solid rgba(255,240,220,0.12);display:flex;align-items:flex-end;padding:16px;"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#b9afa3;">portrait ou illustration, au choix du témoin</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:18px;justify-content:flex-end;">
+<div style="display:flex;align-items:center;gap:16px;padding:16px 18px;border-radius:18px;background:#1f1a15;border:1px solid rgba(255,240,220,0.12);flex-wrap:wrap;">
+<button aria-label="Écouter le témoignage" style="width:52px;height:52px;flex:none;border-radius:50%;border:0;background:#f4efe8;color:#15120f;font-size:18px;cursor:pointer;">▶</button>
+<div style="flex:1;min-width:140px;height:4px;border-radius:2px;background:rgba(255,240,220,0.15);"><div style="width:28%;height:100%;border-radius:2px;background:#f2b46b;"></div></div>
+<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#b9afa3;">0:48 / 2:51 · sous-titré</span>
+</div>
+<p style="margin:0;font-size:21px;line-height:1.5;color:#f4efe8;text-wrap:pretty;">« {{ cur.quote }} »</p>
+<button style="align-self:flex-start;min-height:44px;padding:0 4px;background:none;border:0;color:#f4efe8;font-size:17px;font-weight:600;text-decoration:underline;text-underline-offset:5px;text-decoration-color:rgba(255,240,220,0.4);cursor:pointer;">Lire la transcription complète</button>
+</div>
+</section>
+
+<section ref="{{ gestesRef }}" style="display:flex;flex-direction:column;gap:28px;scroll-margin-top:80px;">
+<div style="display:flex;flex-direction:column;gap:8px;">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#c8f560;">Ce que je peux faire</span>
+<h2 style="margin:0;font-size:clamp(30px,3.6vw,44px);font-weight:600;letter-spacing:-0.02em;">Trois gestes, dès demain</h2>
+</div>
+<sc-if value="{{ hasGestes }}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:18px;">
+<sc-for list="{{ gestes }}" as="g" hint-placeholder-count="3">
+<div style="display:flex;flex-direction:column;gap:12px;padding:26px;border-radius:22px;background:#1f1a15;border:1px solid rgba(255,240,220,0.12);">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:{{ g.color }};">{{ g.kind }}</span>
+<span style="font-size:22px;font-weight:600;line-height:1.25;text-wrap:pretty;">{{ g.title }}</span>
+<span style="font-size:16px;line-height:1.55;color:#b9afa3;text-wrap:pretty;">{{ g.body }}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ noGestes }}" hint-placeholder-val="{{ false }}">
+<p style="margin:0;padding:26px;border-radius:22px;border:1.5px dashed rgba(255,240,220,0.25);font-size:18px;color:#cfc6ba;">Ces gestes sont en cours d’écriture avec les témoins.</p>
+</sc-if>
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
+<button style="display:flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;border-radius:999px;background:#f4efe8;border:0;color:#15120f;font-size:17px;font-weight:700;cursor:pointer;">Partager cette page</button>
+<button onClick="{{ goNext }}" style="display:flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;border-radius:999px;background:rgba(255,240,220,0.04);border:1.5px solid rgba(255,240,220,0.35);color:#f4efe8;font-size:17px;font-weight:600;cursor:pointer;">Suivant : {{ nextName }} <span aria-hidden="true">→</span></button>
+</div>
+</section>
+</main>
+</sc-if>
+
+<footer ref="{{ contactRef }}" data-screen-label="03 Contact" style="border-top:1px solid rgba(255,240,220,0.1);background:#1a1612;scroll-margin-top:68px;">
+<div style="max-width:1240px;margin:0 auto;padding:64px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:40px;">
+<div style="display:flex;flex-direction:column;gap:14px;">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#f2b46b;">Contact</span>
+<h2 style="margin:0;font-size:clamp(30px,3.6vw,42px);line-height:1.1;font-weight:600;letter-spacing:-0.02em;text-wrap:balance;">Vous vivez un de ces obstacles ? Racontez-le.</h2>
+<p style="margin:0;font-size:17px;line-height:1.6;color:#b9afa3;max-width:46ch;">Chaque témoin relit et valide son récit. Prénom réel ou pseudonyme, photo ou illustration : c’est vous qui choisissez. Retrait possible à tout moment.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:18px;">
+<div style="display:flex;flex-direction:column;gap:14px;padding:22px;border-radius:22px;background:#1f1a15;border:1px solid rgba(255,240,220,0.14);">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#c8f560;">Espace témoin</span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#b9afa3;border:1px solid rgba(255,240,220,0.25);border-radius:999px;padding:2px 10px;">sans mot de passe</span></div>
+<p style="margin:0;font-size:16px;line-height:1.55;color:#cfc6ba;">Relisez, modifiez ou retirez votre récit à tout moment. Votre passkey utilise l’empreinte, le visage ou le code de votre appareil : rien à retenir.</p>
+<div style="display:flex;flex-wrap:wrap;gap:10px;">
+<button type="button" onClick="{{ createPasskey }}" style="min-height:48px;padding:0 22px;border-radius:999px;background:#f4efe8;border:0;color:#15120f;font-size:16px;font-weight:700;cursor:pointer;">Créer ma passkey</button>
+<button type="button" onClick="{{ usePasskey }}" style="min-height:48px;padding:0 20px;border-radius:999px;background:none;border:1.5px solid rgba(255,240,220,0.35);color:#f4efe8;font-size:16px;font-weight:600;cursor:pointer;">Me connecter</button>
+</div>
+<p aria-live="polite" style="margin:0;font-size:15px;line-height:1.5;color:{{ pkColor }};">{{ pkMsg }}</p>
+</div>
+<form onSubmit="{{ submit }}" style="display:flex;flex-direction:column;gap:16px;">
+<label style="display:flex;flex-direction:column;gap:8px;font-size:16px;font-weight:600;">Je souhaite
+<select style="min-height:52px;padding:0 14px;border-radius:12px;background:#15120f;border:1.5px solid rgba(255,240,220,0.25);color:#f4efe8;font-size:17px;font-family:inherit;"><option>Proposer un témoignage</option><option>Réagir à une page</option><option>Utiliser le site en classe</option></select>
+</label>
+<label style="display:flex;flex-direction:column;gap:8px;font-size:16px;font-weight:600;">Adresse e-mail
+<input type="email" autocomplete="email" style="min-height:52px;padding:0 14px;border-radius:12px;background:#15120f;border:1.5px solid rgba(255,240,220,0.25);color:#f4efe8;font-size:17px;font-family:inherit;">
+</label>
+<label style="display:flex;flex-direction:column;gap:8px;font-size:16px;font-weight:600;">Message
+<textarea rows="4" style="padding:12px 14px;border-radius:12px;background:#15120f;border:1.5px solid rgba(255,240,220,0.25);color:#f4efe8;font-size:17px;font-family:inherit;resize:vertical;"></textarea>
+</label>
+<button type="submit" style="align-self:flex-start;min-height:52px;padding:0 26px;border-radius:999px;background:#f4efe8;border:0;color:#15120f;font-size:17px;font-weight:700;cursor:pointer;">{{ sendLabel }}</button>
+</form>
+</div>
+</div>
+<div style="max-width:1240px;margin:0 auto;padding:20px 24px 32px;display:flex;flex-wrap:wrap;gap:20px;font-size:14px;color:#b9afa3;border-top:1px solid rgba(255,240,220,0.08);">
+<span>Accessibilité : conforme RGAA 4.1 (visé)</span><span>Hébergé en Europe · sans traceurs publicitaires</span><span>Aucun conseil médical</span>
+</div>
+</footer>
+
+<div role="dialog" aria-modal="true" aria-label="Dans sa tête" aria-hidden="{{ panelHidden }}" style="position:fixed;top:0;right:0;bottom:0;z-index:40;width:min(100%,480px);box-sizing:border-box;display:flex;flex-direction:column;gap:24px;padding:28px;background:linear-gradient(180deg,#2a231c,#1f1a15);border-left:1px solid rgba(255,240,220,0.16);box-shadow:-30px 0 80px rgba(0,0,0,0.5);overflow-y:auto;transform:{{ panelTx }};visibility:{{ panelVis }};transition:{{ panelTr }};">
+<div style="display:flex;align-items:center;gap:10px;">
+<span style="width:12px;height:12px;border-radius:50%;background:#f2b46b;"></span>
+<span style="font-size:20px;font-weight:600;">Dans sa tête</span>
+<button onClick="{{ closePanel }}" style="margin-left:auto;display:flex;align-items:center;gap:10px;min-height:44px;padding:0 16px;border-radius:999px;background:#f4efe8;border:0;color:#15120f;font-size:15px;font-weight:700;cursor:pointer;">Fermer <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;border:1px solid rgba(21,18,15,0.4);border-radius:6px;padding:1px 5px;">Échap</span></button>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px;">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#f2b46b;border:1px solid rgba(242,180,107,0.5);border-radius:999px;padding:5px 12px;">{{ cur.name }}</span>
+<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#f4efe8;border:1px solid rgba(255,240,220,0.3);border-radius:999px;padding:5px 12px;">{{ cur.stageTitle }} : {{ stageName }}</span>
+</div>
+<div aria-live="polite" style="display:flex;flex-direction:column;gap:22px;flex:1;">
+<sc-for list="{{ thoughts }}" as="t" hint-placeholder-count="3">
+<p style="margin:0;font-size:clamp(22px,2.6vw,27px);line-height:1.38;color:#f4efe8;opacity:{{ t.op }};transform:{{ t.tx }};transition:opacity 500ms ease,transform 500ms cubic-bezier(.22,1,.36,1);text-wrap:pretty;">{{ t.text }}</p>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:16px;background:rgba(21,18,15,0.6);border:1px solid rgba(255,240,220,0.12);">
+<button aria-label="Écouter la voix off" style="width:44px;height:44px;flex:none;border-radius:50%;border:1.5px solid rgba(255,240,220,0.35);background:none;color:#f4efe8;cursor:pointer;">▶</button>
+<span style="font-size:15px;color:#cfc6ba;">Voix off optionnelle · {{ cur.witness }}</span>
+</div>
+<p style="margin:0;font-size:14px;line-height:1.5;color:#b9afa3;">Pensées écrites avec le témoin. Elles changent selon le stade choisi.</p>
+</div>
+
+<sc-if value="{{ visionOn }}" hint-placeholder-val="{{ false }}">
+<div role="dialog" aria-modal="true" aria-label="Vision 3D" data-screen-label="04 Vision 3D" style="position:fixed;inset:0;z-index:60;background:#0d0b09;display:flex;align-items:center;justify-content:center;opacity:{{ visionOp }};transform:scale({{ visionScale }});transition:opacity 400ms ease,transform 560ms cubic-bezier(.22,1,.36,1);">
+
+<sc-if value="{{ visionWarn }}" hint-placeholder-val="{{ true }}">
+<div style="width:min(100% - 48px,560px);display:flex;flex-direction:column;gap:20px;padding:32px;border-radius:24px;background:#2a231c;border:1px solid rgba(255,138,122,0.5);">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#ff8a7a;">Avant de commencer</span>
+<h2 style="margin:0;font-size:30px;line-height:1.15;font-weight:600;">{{ cur.place }} · {{ stageName }}</h2>
+<p style="margin:0;font-size:18px;line-height:1.55;color:#f4efe8;">{{ cur.warn }} Pas de flash. Le son démarre quand vous le décidez.</p>
+<p style="margin:0;font-size:15px;line-height:1.5;color:#b9afa3;">Déplacement : souris, doigt ou flèches du clavier. Échap pour quitter.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;">
+<button ref="{{ launchRef }}" onClick="{{ startScene }}" style="display:flex;align-items:center;gap:10px;min-height:52px;padding:0 26px;border:0;border-radius:999px;background:linear-gradient(100deg,#c8f560,#8ff0c0);color:#15120f;font-size:18px;font-weight:700;cursor:pointer;">Lancer la scène</button>
+<button onClick="{{ closeVision }}" style="min-height:52px;padding:0 22px;border-radius:999px;background:none;border:1.5px solid rgba(255,240,220,0.35);color:#f4efe8;font-size:17px;font-weight:600;cursor:pointer;">Lire la description à la place</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ visionScene }}" hint-placeholder-val="{{ false }}">
+<sc-if value="{{ hasScene }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="vision-scene" from="./vision3d.js" scene="{{ cur.scene }}" stage="{{ stage }}" style="position:absolute;inset:0;" hint-size="100%,100%"></x-import></sc-if>
+<sc-if value="{{ noScene }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;overflow:hidden;">
+<div style="position:absolute;inset:-40px;background:repeating-linear-gradient(135deg,rgba(255,240,220,0.05) 0 14px,rgba(255,240,220,0) 14px 28px),radial-gradient(ellipse at 50% 60%,#6a4a2c,#1f1a15 60%,#0d0b09);filter:blur({{ sceneBlur }});transition:filter 800ms cubic-bezier(.22,1,.36,1);"></div>
+<div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,transparent {{ tunnel }},#0d0b09 {{ tunnelEdge }});transition:background 800ms;pointer-events:none;"></div>
+<div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:'IBM Plex Mono',monospace;font-size:13px;color:#b9afa3;text-align:center;filter:blur({{ sceneBlur }});transition:filter 800ms;">scène 3D à venir · {{ cur.place }}</div>
+</div>
+</sc-if>
+<div style="position:absolute;top:20px;left:20px;right:20px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+<div style="display:flex;flex-direction:column;gap:6px;padding:12px 16px;border-radius:16px;background:rgba(21,18,15,0.8);backdrop-filter:blur(10px);">
+<span style="font-size:16px;font-weight:600;">{{ cur.name }}</span>
+<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#f2b46b;">{{ cur.stageTitle }} : {{ stageName }}</span>
+</div>
+<button onClick="{{ closeVision }}" style="display:flex;align-items:center;gap:10px;min-height:48px;padding:0 20px;border-radius:999px;background:#f4efe8;border:0;color:#15120f;font-size:16px;font-weight:700;cursor:pointer;">Quitter <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid rgba(21,18,15,0.4);border-radius:6px;padding:1px 6px;">Échap</span></button>
+</div>
+<div style="position:absolute;left:20px;right:20px;bottom:20px;display:flex;justify-content:center;">
+<div role="radiogroup" aria-label="{{ cur.stageTitle }}" style="display:flex;flex-wrap:wrap;gap:4px;padding:4px;border-radius:24px;background:rgba(21,18,15,0.85);backdrop-filter:blur(10px);border:1px solid rgba(255,240,220,0.14);">
+<sc-for list="{{ stages }}" as="s" hint-placeholder-count="4">
+<button role="radio" aria-checked="{{ s.checked }}" onClick="{{ s.pick }}" style="min-height:44px;padding:0 16px;border:0;border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:15px;font-weight:{{ s.fw }};cursor:pointer;transition:background 300ms,color 300ms;">{{ s.label }}</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const D = [
+ {id:'audition',name:'Déficience auditive',count:'≈ 5,2 millions',place:'café bondé',has3d:true,scene:'cafe',scale:'Classification BIAP',stageTitle:'Stade',stages:['Légère','Moyenne','Sévère','Profonde'],
+  stageTexts:['Les voix faibles et les chuchotements se perdent, surtout dans le bruit.','La conversation demande un effort constant ; les appareils aident beaucoup.','Seuls les sons forts passent. Une conversation à deux demande la lecture labiale.','Presque plus aucun son. La langue des signes ou l’écrit deviennent essentiels.'],
+  about:'Entendre moins, ou plus du tout. Le plus dur n’est souvent pas le silence, mais le bruit : un café, une réunion, une annonce en gare sans affichage.',
+  warn:'Vous allez entendre des voix brouillées dans un café.',witness:'Camille, 41 ans',quote:'Je hoche la tête, mais je n’ai compris qu’un mot sur trois. Je n’ose plus faire répéter.',
+  thoughts:[['Il parle vite, mais ça va.','Je rate juste la fin des phrases.'],['Encore « pardon ? ». La troisième fois.','Je vais deviner, tant pis.'],['Je hoche la tête.','Je n’ai compris qu’un mot sur trois.','Je n’ose plus faire répéter.'],['Ils rient. Je souris aussi.','Personne ne pense à écrire.','Je suis là, mais à côté.']],
+  gestes:[['Aider','Parlez face à la personne, sans exagérer l’articulation.','Elle lit sur vos lèvres : gardez la bouche visible, pas de main devant.'],['Éviter','Ne dites pas « laisse tomber, c’est pas important ».','Ce qui ne l’est pas pour vous l’exclut de la conversation.'],['Aménager','Affichez les annonces, sous-titrez vos vidéos.','Une info sonore doit toujours exister aussi à l’écrit.']]},
+ {id:'dys',name:'Troubles DYS',count:'≈ 6 à 8 %*',place:'page de texte',has3d:true,scene:'dys',warn:'Vous allez lire une consigne dont les lettres bougent et se mélangent.',scale:'',stageTitle:'Intensité',stages:['Léger','Modéré','Sévère'],
+  about:'Dyslexie, dyspraxie, dysorthographie… Le cerveau traite autrement les lettres ou les gestes. Rien à voir avec l’intelligence.',quote:'Je relis la consigne pour la quatrième fois. Les autres ont déjà fini.'},
+ {id:'moteur',name:'Handicap moteur',count:'≈ 2,3 millions',place:'rue à hauteur de fauteuil',has3d:true,scene:'rue',scale:'Échelle ASIA',stageTitle:'Niveau',stages:['A','B','C','D','E'],
+  stageTexts:['Lésion complète : aucune sensation ni motricité sous la lésion.','Sensibilité préservée, aucune motricité.','Motricité partielle, muscles faibles.','Motricité utile, la marche reste souvent possible avec aide.','Sensibilité et motricité normales.'],
+  about:'Paraplégie, amputation, paralysie… Le corps fonctionne autrement. L’obstacle, c’est la marche de 5 cm, la porte lourde, le trottoir sans bateau.',
+  warn:'Vous allez traverser une rue à hauteur de fauteuil roulant.',witness:'Karim, 33 ans',quote:'Il y a une marche. Je fais demi-tour, ou je demande à un inconnu ?',
+  gestes:[['Aider','Demandez avant d’aider, puis faites comme on vous dit.','Pousser un fauteuil sans prévenir, c’est déplacer quelqu’un sans son accord.'],['Éviter','Ne vous appuyez pas sur le fauteuil.','C’est une partie de l’espace personnel, pas un meuble.'],['Aménager','Une rampe amovible coûte moins qu’un client perdu.','Signalez-la à l’entrée, avec une sonnette à hauteur d’assis.']]},
+ {id:'tdah',name:'TDAH',count:'≈ 2 à 5 %*',place:'bureau',has3d:true,scene:'tdah',warn:'Votre regard va être attiré malgré vous par ce qui bouge autour.',scale:'DSM-5',stageTitle:'Intensité',stages:['Léger','Modéré','Sévère'],
+  about:'L’attention ne se dirige pas à volonté : chaque bruit, chaque mouvement gagne la compétition. Ce n’est ni de la paresse ni un manque d’éducation.',quote:'Je dois finir ce mail. Tiens, la fenêtre. Le mail. Le café. Le mail…'},
+ {id:'vue',name:'Déficience visuelle',count:'≈ 1,7 million',place:'supermarché',has3d:true,scene:'market',scale:'Catégories OMS',stageTitle:'Catégorie',stages:['1','2','3','4','5'],
+  stageTexts:['Malvoyance modérée : les étiquettes et visages se brouillent.','Malvoyance sévère : on devine les formes, plus les détails.','Cécité : une perception très faible persiste.','Cécité : seule la lumière se perçoit.','Cécité totale : aucune perception de la lumière.'],
+  about:'Vision floue, en tunnel ou avec une tache au centre, jusqu’au noir complet. Un panneau, un prix, un visage deviennent des énigmes.',
+  warn:'Vous allez parcourir un supermarché avec une vision réduite.',witness:'Odile, 68 ans',quote:'Ce panneau dit « Sortie » ou « Sorbet » ? Je vais suivre la foule.',
+  gestes:[['Aider','Présentez-vous en parlant, dites quand vous partez.','Elle ne vous voit pas arriver ni vous éloigner.'],['Éviter','Ne dites pas « c’est là-bas » en montrant du doigt.','Préférez « à deux pas, sur votre droite ».'],['Aménager','Gros caractères, contrastes forts, allées dégagées.','Et un site lisible au lecteur d’écran.']]},
+ {id:'alzheimer',name:'Alzheimer',count:'≈ 1 million',place:'sa propre cuisine',has3d:true,scene:'alzheimer',warn:'Vous êtes dans votre cuisine. Des objets vont changer de place quand vous ne regardez pas.',scale:'Reisberg',stageTitle:'Stade',stages:['Léger','Modéré','Sévère'],
+  about:'La mémoire récente s’efface d’abord, puis les repères familiers. La personne reste là, avec ses émotions, même quand les mots partent.',quote:'Cette dame est gentille. Elle dit qu’elle est ma fille.'},
+ {id:'autisme',name:'Autisme (TSA)',count:'≈ 1 %*',place:'gare',has3d:true,scene:'autisme',warn:'Lumières, bruits et foule vont s’amplifier jusqu’à la surcharge.',scale:'DSM-5 · pas de niveau 4',stageTitle:'Niveau de soutien',stages:['Niveau 1','Niveau 2','Niveau 3'],
+  stageTexts:['Besoin de soutien : les imprévus et le bruit fatiguent beaucoup.','Besoin de soutien important : la surcharge arrive vite.','Besoin de soutien très important au quotidien.'],
+  about:'Le monde arrive sans filtre : lumières, bruits, foule. Ce qui est un fond pour vous peut devenir un mur.',quote:'Le néon grésille. Trop de voix. Il me faut un endroit calme, maintenant.'},
+ {id:'di',name:'Déficience intellectuelle',count:'≈ 650 000 à 700 000',place:'guichet',has3d:true,scene:'di',warn:'Un agent va vous expliquer une démarche, vite, avec des mots compliqués.',scale:'',stageTitle:'Degré',stages:['Légère','Moyenne','Grave','Profonde'],
+  about:'Comprendre prend plus de temps. Un formulaire compliqué ou quelqu’un qui parle vite suffisent à fermer une porte.',quote:'Je ne comprends pas. Mais si je le dis, il va me parler comme à un enfant.'},
+ {id:'schizo',name:'Schizophrénie',count:'≈ 1 %*',place:'trajet en bus',has3d:true,scene:'bus',warn:'Vous allez entendre des chuchotements dans un bus, en son 3D. Scène co-écrite avec un témoin.',witness:'Thomas, 29 ans',
+  thoughts:[['J’ai mal dormi, c’est tout.','Pourquoi il me fixe ?'],['Ils parlent de moi. Non. Respire.','Je sais que ces voix ne sont pas réelles.','Les ignorer me demande un effort constant.'],['Deux arrêts encore.','Le traitement aide. La fatigue reste.']],scale:'',stageTitle:'Phase',stages:['Prodromique','Aiguë','Stabilisation'],
+  about:'Une maladie qui se soigne et se stabilise. La personne sait souvent faire la différence ; c’est l’effort permanent qui épuise.',quote:'Je sais que ces voix ne sont pas réelles. Les ignorer me demande un effort constant.'},
+ {id:'epilepsie',name:'Épilepsie',count:'≈ 500 000',place:'le lendemain',has3d:true,scene:'epilepsie',warn:'Aucune crise n’est simulée. Vous vivez le lendemain : fatigue et trous de mémoire.',scale:'Pas de stades',stageTitle:'Situation',stages:['Équilibrée','Pharmacorésistante'],
+  about:'Aucune simulation de crise ici. On montre l’après : la fatigue, les trous de mémoire, le permis retiré.',quote:'Je n’ai plus le droit de conduire. Comment je vais au travail demain ?'},
+ {id:'parkinson',name:'Parkinson',count:'≈ 100 000 et plus*',place:'servir un verre',has3d:true,scene:'parkinson',warn:'Vous allez essayer de servir un verre d’eau avec un tremblement.',scale:'Hoehn et Yahr',stageTitle:'Stade',stages:['1','2','3','4','5'],
+  about:'Les gestes tremblent, la marche se fige devant une porte. Le regard des autres pèse plus que le tremblement.',quote:'Mes pieds refusent d’avancer. Derrière moi, les gens s’impatientent.'},
+ {id:'sep',name:'Sclérose en plaques',count:'≈ 80 000 et plus*',place:'une journée entière',has3d:true,scene:'sep',warn:'Une journée entière en une minute. La vue se trouble par moments.',scale:'EDSS 0 à 10',stageTitle:'Forme',stages:['Rémittente','Secondaire','Primaire'],
+  about:'Un handicap qui change d’heure en heure. Bien le matin ne veut pas dire bien le soir.',quote:'Ce matin tout va bien. Cet après-midi, je ne pourrai plus marcher jusqu’à la voiture.'},
+ {id:'sla',name:'SLA (Charcot)',count:'≈ 1 000 cas / an',place:'tablette à commande oculaire',has3d:true,scene:'sla',warn:'Votre corps ne répond plus. Écrivez avec le regard sur une tablette.',scale:'Stades de King',stageTitle:'Stade',stages:['1','2','3','4'],
+  about:'Les muscles cessent de répondre, un à un. La pensée reste intacte ; on finit par parler avec les yeux.',quote:'Ma tête va très bien. C’est mon corps qui ne suit plus.'},
+ {id:'acouphenes',name:'Acouphènes sévères',count:'≈ 1 million*',place:'chambre silencieuse',has3d:true,scene:'acouphenes',warn:'Un son aigu continu si vous activez le son. Baissez le volume avant.',scale:'',stageTitle:'Gêne',stages:['Légère','Modérée','Sévère'],
+  about:'Un sifflement permanent que personne d’autre n’entend. Le silence n’existe plus, le sommeil devient un combat.',quote:'Tout le monde dit que c’est calme. Moi, j’entends une sirène.'},
+ {id:'depression',name:'Dépression sévère',count:'≈ 3 millions*',place:'un lundi matin',has3d:true,scene:'depression',warn:'Une matinée lourde et sombre, sans événement brusque.',scale:'',stageTitle:'Intensité',stages:['Légère','Modérée','Sévère'],
+  about:'Une maladie, pas une humeur. Se lever, se laver, répondre à un message peut demander toute l’énergie de la journée.',quote:'Je sais que je devrais appeler. Le téléphone pèse une tonne.'},
+ {id:'anxiete',name:'Trouble anxieux · agoraphobie',count:'≈ 2 millions*',place:'métro à l’heure de pointe',has3d:true,scene:'anxiete',warn:'Une foule, un cœur qui s’emballe et une vue qui se rétrécit. Vous pouvez quitter à tout moment.',scale:'',stageTitle:'Intensité',stages:['Légère','Modérée','Sévère'],
+  about:'Le corps sonne l’alarme sans danger réel : cœur qui bat, souffle court. Alors on évite, et le monde rétrécit.',quote:'Si je fais un malaise ici, personne ne pourra m’aider.'},
+ {id:'bipolaire',name:'Trouble bipolaire',count:'≈ 1 million*',place:'une semaine',has3d:true,scene:'bipolaire',warn:'Le même bureau, vu en phase dépressive, stable ou maniaque.',scale:'',stageTitle:'Phase',stages:['Dépressive','Stable','Maniaque'],
+  about:'Des phases d’énergie démesurée, puis d’épuisement. Avec un traitement, beaucoup vivent des années stables.',quote:'Hier j’avais dix projets. Aujourd’hui je n’arrive pas à choisir un pull.'},
+ {id:'fibro',name:'Fibromyalgie',count:'≈ 1,5 million*',place:'monter un escalier',has3d:true,scene:'fibro',warn:'Une marche où la douleur revient par vagues.',scale:'',stageTitle:'Intensité',stages:['Légère','Modérée','Sévère'],
+  about:'Des douleurs diffuses et une fatigue que les examens ne montrent pas. Le plus dur : qu’on ne vous croie pas.',quote:'Tu as l’air en forme. Si tu savais.'},
+ {id:'dmla',name:'Daltonisme',count:'≈ 2 millions*',place:'plan de métro',has3d:true,scene:'daltonisme',warn:'Une rue en couleurs, vue avec trois formes de daltonisme.',scale:'',stageTitle:'Type',stages:['Deutéranopie','Protanopie','Tritanopie'],
+  about:'Certaines couleurs se confondent. Un graphique, une ligne de métro, un feu peuvent devenir ambigus.',quote:'La ligne verte ou la ligne marron ? Elles sont pareilles.'},
+ {id:'tc',name:'Traumatisme crânien',count:'≈ 1 million*',place:'supermarché',has3d:true,scene:'tc',warn:'Lumière forte et vue qui se brouille par moments. Pas de flash.',scale:'',stageTitle:'Gravité',stages:['Léger','Modéré','Grave'],
+  about:'Un choc qui change la mémoire, la fatigue, les émotions. Souvent invisible, souvent mal compris.',quote:'Je suis entré pour quelque chose. Je ne sais plus quoi.'},
+ {id:'avc',name:'Aphasie après AVC',count:'≈ 300 000*',place:'guichet de la poste',has3d:true,scene:'avc',warn:'Vous voulez parler, mais les mots qui sortent ne sont pas les bons.',scale:'',stageTitle:'Sévérité',stages:['Légère','Modérée','Sévère'],
+  about:'La pensée est intacte, les mots ne sortent plus ou sortent faux. Ce n’est pas un problème d’intelligence.',quote:'Je veux dire « colis ». J’entends « colère ».'},
+ {id:'crohn',name:'Maladie de Crohn',count:'≈ 250 000',place:'trajet en train',has3d:true,scene:'crohn',warn:'Un trajet en bus pendant une poussée, loin des toilettes.',scale:'',stageTitle:'Phase',stages:['Rémission','Poussée'],
+  about:'Une inflammation de l’intestin qui revient par poussées. Il faut savoir où sont les toilettes, partout.',quote:'Avant de monter dans le train, je vérifie qu’il y a des toilettes.'},
+ {id:'t21',name:'Trisomie 21',count:'≈ 65 000',place:'premier jour de travail',has3d:true,scene:'t21',warn:'Un premier jour de travail, avec ses consignes.',scale:'',stageTitle:'Besoin d’accompagnement',stages:['Léger','Moyen','Important'],
+  about:'Un chromosome en plus, des capacités très variables. Beaucoup travaillent, votent, vivent seuls avec un peu d’aide.',quote:'Je comprends très bien. Il faut juste me laisser le temps.'},
+ {id:'imc',name:'Paralysie cérébrale',count:'≈ 125 000',place:'cour de récréation',has3d:true,scene:'imc',warn:'Mouvements involontaires de la caméra. Déconseillé si vous êtes sensible au mal des transports.',scale:'',stageTitle:'Niveau GMFCS',stages:['I','II','III','IV','V'],
+  about:'Une lésion du cerveau à la naissance qui touche les mouvements. L’intelligence est souvent intacte.',quote:'Mon corps bouge tout seul. Ma tête, elle, a très bien compris.'},
+ {id:'tourette',name:'Syndrome Gilles de la Tourette',count:'≈ 50 000 à 100 000*',place:'salle d’attente',has3d:true,scene:'tourette',warn:'Des tics surgissent malgré vous : secousses brèves de la caméra.',scale:'',stageTitle:'Intensité',stages:['Légère','Modérée','Sévère'],
+  about:'Des tics moteurs ou vocaux involontaires. Les retenir est épuisant, et seule une minorité prononce des insultes.',quote:'Je sens le tic arriver. Plus je le retiens, plus il revient fort.'},
+ {id:'begaiement',name:'Bégaiement',count:'≈ 650 000',place:'appel téléphonique',has3d:true,scene:'begaiement',warn:'Vous devez parler au guichet. Les mots se bloquent.',scale:'',stageTitle:'Intensité',stages:['Léger','Modéré','Sévère'],
+  about:'La parole se bloque ou se répète. Finir la phrase à la place de la personne n’aide pas.',quote:'Je connais mon prénom. C’est juste la première syllabe qui ne veut pas sortir.'},
+ {id:'narco',name:'Narcolepsie',count:'≈ 25 000',place:'réunion',has3d:true,scene:'narco',warn:'Les paupières se ferment par moments : l’écran devient noir quelques secondes.',scale:'',stageTitle:'Forme',stages:['Type 2','Type 1'],
+  about:'Des endormissements irrépressibles en pleine journée, parfois des chutes de tonus au moindre rire.',quote:'Je ne m’ennuie pas. Mon cerveau s’éteint sans me demander.'},
+ {id:'muco',name:'Mucoviscidose',count:'≈ 7 500',place:'une matinée de soins',has3d:true,scene:'muco',warn:'Respiration difficile et toux.',scale:'',stageTitle:'Atteinte',stages:['Légère','Modérée','Sévère'],
+  about:'Des poumons qui s’encombrent, deux heures de soins par jour. Une maladie génétique rare, de mieux en mieux traitée.',quote:'Avant de partir à l’école, j’ai déjà fait une heure de kiné.'},
+ {id:'duchenne',name:'Myopathie de Duchenne',count:'≈ 2 500',place:'se relever du sol',has3d:true,scene:'duchenne',warn:'Vous essayez de vous relever du sol.',scale:'',stageTitle:'Stade',stages:['Ambulatoire','Perte de la marche','Avancé'],
+  about:'Les muscles s’affaiblissent dès l’enfance. Une maladie rare qui touche surtout les garçons.',quote:'Pour me relever, je dois pousser sur mes genoux avec mes mains.'},
+ {id:'migraine',name:'Migraine chronique',count:'≈ 7 millions*',place:'bureau',has3d:true,scene:'migraine',warn:'Une aura visuelle lente, sans flash, puis une lumière très forte.',scale:'',stageTitle:'Phase',stages:['Aura','Crise','Après-crise'],about:'Pas un simple mal de tête : une maladie neurologique. Lumière, bruit et odeurs deviennent insupportables pendant des heures.',quote:'Je ne peux pas « prendre un cachet et revenir ». Il me faut le noir.'},
+ {id:'toc',name:'TOC',count:'≈ 1,2 million*',place:'sa cuisine, avant de partir',has3d:true,scene:'toc',warn:'Votre regard revient malgré vous vers la plaque de cuisson.',scale:'Y-BOCS',stageTitle:'Intensité',stages:['Léger','Modéré','Sévère'],about:'Des pensées qui s’imposent et des gestes pour les calmer. La personne sait que c’est excessif : c’est ce qui épuise.',quote:'Je sais que la plaque est éteinte. Je vérifie quand même. Encore.'},
+ {id:'tspt',name:'Stress post-traumatique',count:'≈ 1,5 million*',place:'rue calme',has3d:true,scene:'tspt',warn:'Des bruits soudains déclenchent un souvenir : la vue se rétrécit brièvement.',scale:'',stageTitle:'Intensité',stages:['Léger','Modéré','Sévère'],about:'Après un événement grave, le corps reste en alerte. Un bruit, une odeur suffisent à tout faire revenir.',quote:'Une portière claque et je ne suis plus dans la rue.'},
+ {id:'meniere',name:'Maladie de Ménière',count:'≈ 30 000*',place:'hall de gare',has3d:true,scene:'meniere',warn:'Vertige rotatoire : la caméra tourne. Déconseillé si vous êtes sensible au mal des transports.',scale:'',stageTitle:'Phase',stages:['Entre les crises','Crise','Après la crise'],about:'Une maladie de l’oreille interne : vertiges violents, oreille bouchée, acouphènes. Les crises arrivent sans prévenir.',quote:'Le sol tourne. Je m’assois par terre, tant pis pour les regards.'},
+ {id:'endometriose',name:'Endométriose',count:'≈ 2 millions*',place:'réunion au bureau',has3d:true,scene:'endometriose',warn:'Une douleur qui revient par vagues : le regard se baisse.',scale:'',stageTitle:'Intensité',stages:['Légère','Modérée','Sévère'],about:'Une maladie gynécologique qui touche une femme sur dix. Sept ans de diagnostic en moyenne, faute d’être crue.',quote:'« Ce sont juste des règles douloureuses. » Non.'},
+ {id:'diabete',name:'Diabète de type 1',count:'≈ 300 000*',place:'café',has3d:true,scene:'diabete',warn:'Une hypoglycémie : tremblements légers de la caméra et vue troublée.',scale:'',stageTitle:'Glycémie',stages:['Normale','Basse','Hypoglycémie sévère'],about:'Le corps ne produit plus d’insuline. Chaque repas, chaque effort se calcule, jour et nuit.',quote:'Ce n’est pas de l’alcool. J’ai besoin de sucre, maintenant.'},
+ {id:'cataracte',name:'Cataracte',count:'≈ 600 000 opérations / an',place:'rue ensoleillée',has3d:true,scene:'cataracte',warn:'Une vue voilée, jaunie et éblouie.',scale:'',stageTitle:'Stade',stages:['Débutante','Avancée','Très avancée'],about:'Le cristallin s’opacifie avec l’âge. Tout devient voilé, terne, éblouissant. Une opération courte la soigne.',quote:'Le soleil m’éblouit, je ne vois plus les marches.'}
+];
+const QUIZ = [
+ ['Un handicap, ça se voit.',false,'Une grande partie des handicaps sont invisibles : surdité, fatigue chronique, troubles cognitifs.'],
+ ['Une personne sourde peut tout comprendre en lisant sur les lèvres.',false,'La lecture labiale fatigue et laisse beaucoup de mots dans le flou. Elle aide, elle ne remplace pas l’écrit.'],
+ ['Avant d’aider, mieux vaut demander.',true,'Oui. Une aide imposée peut déséquilibrer, gêner ou humilier. Demandez, puis suivez les indications.']
+];
+const reduce = () => window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+class Component extends DCLogic {
+  state = { view:'home', idx:0, stage:0, textStage:0, stageOp:1, panel:false, shown:0, vision:null, vOp:0, q:0, pick:null, sent:false };
+  catRef = React.createRef(); quizRef = React.createRef(); contactRef = React.createRef(); gestesRef = React.createRef(); launchRef = React.createRef();
+  componentDidMount(){ this.onKey = e => { if(e.key==='Escape'){ if(this.state.vision) this.closeVision(); else if(this.state.panel) this.closePanel(); } }; window.addEventListener('keydown', this.onKey); }
+  componentWillUnmount(){ window.removeEventListener('keydown', this.onKey); clearInterval(this.tick); }
+  componentDidUpdate(){ const w = this.state.vision==='warn'; if(w && !this._wasWarn) setTimeout(()=>this.launchRef.current && this.launchRef.current.focus(), 60); this._wasWarn = w; }
+  transition(update, after){
+    const run = () => new Promise(r => this.setState(update, () => { after && after(); r(); }));
+    if (document.startViewTransition && !reduce() && document.visibilityState === 'visible') { try { const vt = document.startViewTransition(run); vt.ready.catch(()=>{}); vt.finished.catch(()=>{}); vt.updateCallbackDone && vt.updateCallbackDone.catch(()=>{}); } catch(e) { run(); } } else run();
+  }
+  open(i){ const s = D[i].id==='audition' ? 2 : 0; this.transition({view:'fiche', idx:i, stage:s, textStage:s, panel:false}, () => window.scrollTo(0,0)); }
+  goHome = () => this.transition({view:'home', panel:false}, () => window.scrollTo(0,0));
+  scrollTo(ref){ const go = () => { const el = ref.current; if(el) window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 68, behavior: reduce()?'auto':'smooth'}); };
+    if(this.state.view!=='home' && ref!==this.contactRef) this.transition({view:'home', panel:false}, () => setTimeout(go, 30)); else go(); }
+  pickStage(i){ if(i===this.state.stage) return; this.setState({stage:i, stageOp:0}); clearTimeout(this.ft); this.ft = setTimeout(()=>this.setState({textStage:i, stageOp:1}), 200); if(this.state.panel) this.revealThoughts(); }
+  revealThoughts(){ clearInterval(this.tick); const n = this.thoughtsFor().length;
+    if(reduce()){ this.setState({shown:n}); return; }
+    this.setState({shown:0}); this.tick = setInterval(()=>{ this.setState(s => { if(s.shown >= n){ clearInterval(this.tick); return null; } return {shown:s.shown+1}; }); }, 650); }
+  thoughtsFor(st){ const d = D[this.state.idx]; const s = st ?? this.state.stage;
+    if(d.thoughts) return d.thoughts[Math.min(s, d.thoughts.length-1)];
+    return d.quote.split(/(?<=[.?!…])\s+/); }
+  openPanel = () => { this.setState({panel:true}); setTimeout(()=>this.revealThoughts(), 380); };
+  closePanel = () => { clearInterval(this.tick); this.setState({panel:false}); };
+  openVision = () => { this.setState({vision:'warn', vOp:0}); requestAnimationFrame(()=>requestAnimationFrame(()=>this.setState({vOp:1}))); };
+  closeVision = () => { this.setState({vOp:0}); setTimeout(()=>this.setState({vision:null}), reduce()?150:400); };
+  renderVals(){
+    const st = this.state, d = D[st.idx], q = QUIZ[st.q];
+    const stages = d.stages.map((label,i)=>({label, checked: i===st.stage ? 'true':'false', bg: i===st.stage?'#f4efe8':'transparent', fg: i===st.stage?'#15120f':'#cfc6ba', fw: i===st.stage?700:500, pick: ()=>this.pickStage(i)}));
+    const thoughts = this.thoughtsFor().map((text,i)=>({text, op: i<st.shown?1:0, tx: i<st.shown?'none':'translateY(10px)'}));
+    const k = d.stages.length>1 ? st.stage/(d.stages.length-1) : 0;
+    const blurPx = d.id==='moteur' ? 0 : Math.round(k*14);
+    const tunnelPct = d.id==='vue' ? Math.round(60 - k*52) : 140;
+    const ans = st.pick!==null, right = ans && st.pick===q[1];
+    const ni = (st.idx+1)%D.length;
+    return {
+      nCount: D.length, isHome: st.view==='home', isFiche: st.view==='fiche',
+      cards: D.map((x,i)=>({id:x.id, num:String(i+1).padStart(2,'0'), name:x.name, count:x.count, place:x.place, has3d:x.has3d, no3d:!x.has3d, stagesLabel: `${x.stages.length} ${x.stageTitle.toLowerCase()}s · ${x.stages[0]} → ${x.stages[x.stages.length-1]}`, open:()=>this.open(i)})),
+      cur: {...d, num:String(st.idx+1).padStart(2,'0'), no3d:!d.has3d, witness: d.witness || 'Témoin à confirmer', warn: d.warn || ''},
+      hasScene: !!d.scene, noScene: !d.scene, stage: st.stage,
+      stages, stageName: d.stages[st.stage], stageOp: st.stageOp,
+      stageText: d.stageTexts ? d.stageTexts[st.textStage] : 'Description du stade à écrire avec les témoins.',
+      gestes: (d.gestes||[]).map(([kind,title,body])=>({kind,title,body,color: kind==='Éviter'?'#ff8a7a':kind==='Aider'?'#c8f560':'#f2b46b'})),
+      hasGestes: !!d.gestes, noGestes: !d.gestes,
+      nextName: D[ni].name, goNext: ()=>this.open(ni),
+      goHome: this.goHome, openFirst: ()=>this.open(0),
+      goCatalogue: ()=>this.scrollTo(this.catRef), goQuiz: ()=>this.scrollTo(this.quizRef), goContact: ()=>this.scrollTo(this.contactRef),
+      catRef:this.catRef, quizRef:this.quizRef, contactRef:this.contactRef, gestesRef:this.gestesRef, launchRef:this.launchRef,
+      openPanel:this.openPanel, closePanel:this.closePanel, thoughts,
+      panelHidden: st.panel?'false':'true', panelTx: st.panel?'translateX(0)':'translateX(104%)', panelVis: st.panel?'visible':'hidden',
+      panelTr: st.panel ? 'transform 480ms cubic-bezier(.22,1,.36,1), visibility 0s' : 'transform 400ms cubic-bezier(.22,1,.36,1), visibility 0s linear 400ms',
+      visionOn: !!st.vision, visionWarn: st.vision==='warn', visionScene: st.vision==='scene', visionOp: st.vOp, visionScale: st.vOp?1:0.96,
+      openVision:this.openVision, closeVision:this.closeVision, startScene: ()=>this.setState({vision:'scene'}),
+      sceneBlur: blurPx+'px', tunnel: tunnelPct+'%', tunnelEdge: (tunnelPct+18)+'%',
+      quizPos: `${st.q+1} / ${QUIZ.length}`, quizQ: q[0], quizA: q[2], answered: ans,
+      verdict: right ? 'Bien vu.' : (q[1] ? 'Eh non, c’est vrai.' : 'Eh non, c’est faux.'), verdictColor: right?'#c8f560':'#f2b46b',
+      pickedTrue: st.pick===true?'true':'false', pickedFalse: st.pick===false?'true':'false',
+      trueBg: st.pick===true?'#f4efe8':'rgba(255,240,220,0.04)', trueFg: st.pick===true?'#15120f':'#f4efe8',
+      falseBg: st.pick===false?'#f4efe8':'rgba(255,240,220,0.04)', falseFg: st.pick===false?'#15120f':'#f4efe8',
+      answerTrue: ()=>!ans && this.setState({pick:true}), answerFalse: ()=>!ans && this.setState({pick:false}),
+      nextQuiz: ()=>this.setState({q:(st.q+1)%QUIZ.length, pick:null}), nextLabel: st.q<QUIZ.length-1 ? 'Question suivante →' : 'Recommencer',
+      pkMsg: this.state.pkMsg || '', pkColor: this.state.pkErr ? '#ff8a7a' : '#c8f560',
+      createPasskey: async () => { try { if (!window.PublicKeyCredential) throw new Error('x'); const rnd = (n) => crypto.getRandomValues(new Uint8Array(n)); const c = await navigator.credentials.create({ publicKey: { challenge: rnd(32), rp: { name: 'Autrement vu' }, user: { id: rnd(16), name: 'temoin', displayName: 'Témoin' }, pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }], authenticatorSelection: { residentKey: 'preferred', userVerification: 'required' }, timeout: 60000 } }); localStorage.setItem('av-passkey', btoa(String.fromCharCode(...new Uint8Array(c.rawId)))); this.setState({ pkMsg: 'Passkey créée sur cet appareil. Vous pourrez vous connecter d’un geste.', pkErr: false }); } catch (e) { this.setState({ pkMsg: e.name === 'NotAllowedError' ? 'Création annulée.' : 'Démo : passkey simulée (ce navigateur ou l’aperçu ne permet pas la vraie création).', pkErr: e.name === 'NotAllowedError' }); if (e.name !== 'NotAllowedError') localStorage.setItem('av-passkey', 'demo'); } },
+      usePasskey: async () => { const id = localStorage.getItem('av-passkey'); if (!id) { this.setState({ pkMsg: 'Aucune passkey sur cet appareil. Créez-en une d’abord.', pkErr: true }); return; } try { if (id === 'demo') throw new Error('demo'); await navigator.credentials.get({ publicKey: { challenge: crypto.getRandomValues(new Uint8Array(32)), allowCredentials: [{ type: 'public-key', id: Uint8Array.from(atob(id), (c) => c.charCodeAt(0)) }], userVerification: 'required' } }); this.setState({ pkMsg: 'Connecté. Bienvenue dans votre espace témoin.', pkErr: false }); } catch (e) { this.setState(e.name === 'NotAllowedError' ? { pkMsg: 'Connexion annulée.', pkErr: true } : { pkMsg: 'Connecté (démo). Bienvenue dans votre espace témoin.', pkErr: false }); } },
+      submit: e => { e.preventDefault(); this.setState({sent:true}); }, sendLabel: st.sent ? 'Merci, on vous répond sous 7 jours' : 'Envoyer'
+    };
+  }
+}
+</script>
+</body>
+</html>
