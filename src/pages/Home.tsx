@@ -2,6 +2,7 @@ import { Link } from 'react-router'
 import ConditionCard from '../components/ConditionCard'
 import Status from '../components/Status'
 import { useContent } from '../lib/content'
+import { useReducedMotion } from '../lib/motion'
 import { useTitle } from '../lib/useTitle'
 
 const ways = [
@@ -14,20 +15,37 @@ export default function Home() {
   useTitle('')
   const content = useContent()
   const count = content.status === 'ready' ? content.conditions.length : null
+  const reducedMotion = useReducedMotion()
 
   return (
     <div className="container">
-      <section className="hero" aria-labelledby="hero-title">
-        <span className="overtitle">Le handicap au quotidien, raconté par celles et ceux qui le vivent</span>
-        <h1 id="hero-title" className="display">Il y a une marche.</h1>
-        <p className="lead">
-          Pour vous, 5 cm. Pour d’autres, une porte fermée. Ici, des personnes en situation de handicap racontent
-          les obstacles que crée leur environnement. Lisez, voyez, entendez, puis découvrez ce que vous pouvez changer.
-        </p>
-        <div className="hero-actions">
-          <a className="btn btn-primary" href="#catalogue">Découvrir les {count ?? ''} handicaps <span aria-hidden="true">↓</span></a>
-          <Link className="btn btn-secondary" to="/idees-recues" viewTransition>Tester mes idées reçues</Link>
+      <section className="hero hero-split" aria-labelledby="hero-title">
+        <div className="hero-text">
+          <span className="overtitle">Le handicap au quotidien, raconté par celles et ceux qui le vivent</span>
+          <h1 id="hero-title" className="display">Il y a une marche.</h1>
+          <p className="lead">
+            Pour vous, 5 cm. Pour d’autres, une porte fermée. Ici, des personnes en situation de handicap racontent
+            les obstacles que crée leur environnement. Lisez, voyez, entendez, puis découvrez ce que vous pouvez changer.
+          </p>
+          <div className="hero-actions">
+            <a className="btn btn-primary" href="#catalogue">Découvrir les {count ?? ''} handicaps <span aria-hidden="true">↓</span></a>
+            <Link className="btn btn-secondary" to="/idees-recues" viewTransition>Tester mes idées reçues</Link>
+          </div>
         </div>
+        {/* Muette par défaut (aucun son sans action) ; lecture auto sauf si « réduire les animations ». */}
+        <figure className="hero-video">
+          <video
+            src="/video/autrement-vu-presentation.mp4"
+            controls
+            muted
+            loop
+            playsInline
+            autoPlay={!reducedMotion}
+            preload="metadata"
+            aria-label="Vidéo de présentation d’Autrement vu"
+          />
+          <figcaption className="mono muted">Présentation · activez le son avec le bouton du lecteur</figcaption>
+        </figure>
       </section>
 
       <ul className="gestures" aria-label="Trois façons de comprendre" style={{ marginTop: 8 }}>
